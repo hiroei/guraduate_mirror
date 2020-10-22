@@ -1,9 +1,10 @@
 import numpy as np
 import cv2
+import os
 
-cap = cv2.VideoCapture('2-2R0010095_er.MP4')
-
-
+path = '..'+os.sep+'src'+os.sep+'2-2R0010095_er.MP4'
+cap = cv2.VideoCapture(path)
+# print(path)
 
 while(cap.isOpened()):
     ret, frame = cap.read()
