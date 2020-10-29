@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+動画の角度を回転させるプログラム
+"""
+
 import numpy as np
 import cv2
 import os

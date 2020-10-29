@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+フレーム数を表示するプログラム
+"""
+
 import numpy as np
 import cv2
 import os
@@ -17,7 +22,7 @@ while(cap.isOpened()):
     cv2.imshow('frame', resized_frame)
     count = cap.get(cv2.CAP_PROP_POS_FRAMES)
     print(count)
-    
+
     #キー入力
     key = cv2.waitKey(0) & 0xFF
     if key == ord('q'):

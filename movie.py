@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+動画の特徴点移動を表示するプログラム
+"""
+
 import numpy as np
 import cv2
 import os
