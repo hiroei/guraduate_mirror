@@ -1,0 +1,34 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+# from
+# https://www.creationline.com/lab/34635
+
+variables:
+  AppName: hello-app
+  OutputDir: _buildOutput
+  TmpRepoDir: _repo
+  GithubPath: github.com/hiroei/guraduate_mirror.git
+pool:
+  vmImage: 'ubuntu-latest'
+trigger:
+- master
+steps:
+- script: |
+    cd $(Build.SourcesDirectory) && mkdir $(OutputDir)
+    gcc main.c -o $(OutputDir)/$(AppName)
+  displayName: Build
+- task: CopyFiles@2
+  inputs:
+    contents: '$(OutputDir)/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: MyBuildOutputs    
+- script: |
+    cd /tmp && rm -rf /tmp/$(TmpRepoDir)
+    git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" clone --mirror $(Build.Repository.Uri) $(TmpRepoDir)
+    git -C /tmp/$(TmpRepoDir) push --mirror https://oauth2:$(GithubToken)@$(GithubPath)
+  displayName: 'Copy to Github'
