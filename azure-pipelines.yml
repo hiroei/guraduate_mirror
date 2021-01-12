@@ -9,7 +9,8 @@ variables:
   AppName: hello-app
  # OutputDir: _buildOutput
   TmpRepoDir: _repo
-  GithubPath: github.com/hiroei/guraduate_mirror.git
+  GithubPath: hiroei/guraduate_mirror.git
+  GitUser: azure
 pool:
   vmImage: 'ubuntu-latest'
 trigger:
@@ -30,5 +31,5 @@ steps:
 - script: |
     cd /tmp && rm -rf /tmp/$(TmpRepoDir)
     git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" clone --mirror $(Build.Repository.Uri) $(TmpRepoDir)
-    git -C /tmp/$(TmpRepoDir) push --mirror https://oauth2:$(GithubToken)@$(GithubPath)
+    git -C /tmp/$(TmpRepoDir) push --mirror https://$(GitUser):$(GithubToken)@github.com/$(GithubPath)
   displayName: 'Copy to Github'
